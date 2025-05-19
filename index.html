@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>BdayTime – Prochains anniversaires</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="calculator-container">
+    <h1 class="title">BdayTime</h1>
+    <h2 class="subtitle">Calcule tes prochains anniversaires</h2>
+
+    <!-- Animation : orbites (inchangée) -->
+    <div class="orbit-container" aria-hidden="true">
+      <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <path id="e30" d="M150 150 m-30 0 a30 20 0 1 0 60 0 a30 20 0 1 0 -60 0"/>
+          <path id="e45" d="M150 150 m-45 0 a45 30 0 1 0 90 0 a45 30 0 1 0 -90 0"/>
+          <path id="e60" d="M150 150 m-60 0 a60 40 0 1 0 120 0 a60 40 0 1 0 -120 0"/>
+          <path id="e75" d="M150 150 m-75 0 a75 50 0 1 0 150 0 a75 50 0 1 0 -150 0"/>
+          <path id="e90" d="M150 150 m-90 0 a90 60 0 1 0 180 0 a90 60 0 1 0 -180 0"/>
+        </defs>
+        <circle cx="150" cy="150" r="5" fill="#DEBA52"/>
+        <path class="trail" pathLength="1" style="--dur:4s"  d="M150 150 m-30 0 a30 20 0 1 0 60 0 a30 20 0 1 0 -60 0"/>
+        <path class="trail" pathLength="1" style="--dur:6s"  d="M150 150 m-45 0 a45 30 0 1 0 90 0 a45 30 0 1 0 -90 0"/>
+        <path class="trail" pathLength="1" style="--dur:8s"  d="M150 150 m-60 0 a60 40 0 1 0 120 0 a60 40 0 1 0 -120 0"/>
+        <path class="trail" pathLength="1" style="--dur:10s" d="M150 150 m-75 0 a75 50 0 1 0 150 0 a75 50 0 1 0 -150 0"/>
+        <path class="trail" pathLength="1" style="--dur:12s" d="M150 150 m-90 0 a90 60 0 1 0 180 0 a90 60 0 1 0 -180 0"/>
+        <g fill="white">
+          <circle r="3"><animateMotion dur="4s"  repeatCount="indefinite" rotate="auto"><mpath href="#e30"/></animateMotion></circle>
+          <circle r="3"><animateMotion dur="6s"  repeatCount="indefinite" rotate="auto"><mpath href="#e45"/></animateMotion></circle>
+          <circle r="3"><animateMotion dur="8s"  repeatCount="indefinite" rotate="auto"><mpath href="#e60"/></animateMotion></circle>
+          <circle r="3"><animateMotion dur="10s" repeatCount="indefinite" rotate="auto"><mpath href="#e75"/></animateMotion></circle>
+          <circle r="3"><animateMotion dur="12s" repeatCount="indefinite" rotate="auto"><mpath href="#e90"/></animateMotion></circle>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Étape 1 : saisie de naissance -->
+    <div class="input-group">
+      <label for="birth-date">Date de naissance&nbsp;:</label>
+      <input type="date" id="birth-date" required>
+    </div>
+    <div class="input-group">
+      <label for="birth-time">Heure de naissance&nbsp;:</label>
+      <input type="time" id="birth-time" value="12:00" step="60">
+    </div>
+    <button id="calc-btn" class="action-button">Calculer</button>
+
+    <!-- Étape 2 : résultats -->
+    <div class="results-container" id="results" aria-live="polite"></div>
+  </div>
+
+  <p class="footer">One of many side projects from
+    <a href="https://www.linkedin.com/in/tanguyduthion/" target="_blank" rel="noopener noreferrer">
+      <span class="highlight">SidersClub</span></a></p>
+
+  <script src="script.js"></script>
+</body>
+</html>
