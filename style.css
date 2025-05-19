@@ -32,4 +32,3 @@ body{
 .footer a:hover{text-decoration:underline}
 .highlight{position:relative;display:inline-block}
 .highlight::before{content:"";position:absolute;left:-2px;right:-2px;bottom:.1em;height:55%;background:var(--accent);transform:skew(-3deg);z-index:-1}
-
