@@ -1,74 +1,84 @@
+// ===============================
+// Script: BdayTime – next birthday totals
+// ===============================
+
 // Sélecteurs
 const dateInput   = document.getElementById('birth-date');
 const timeInput   = document.getElementById('birth-time');
 const calcBtn     = document.getElementById('calc-btn');
 const resultsZone = document.getElementById('results');
 
-calcBtn.addEventListener('click',()=>{
-  // Validation minimum
+calcBtn.addEventListener('click', ()=>{
   if(!dateInput.value){
     alert('Merci de renseigner ta date de naissance.');
     return;
   }
-  // Construction d'un objet Date de naissance (avec heure)
-  const [y,m,d] = dateInput.value.split('-').map(Number); // yyyy-mm-dd
+
+  // Construit la Date de naissance précise (avec heure)
+  const [y,m,d] = dateInput.value.split('-').map(Number);
   let h = 12, min = 0;
   if(timeInput.value){
     [h,min] = timeInput.value.split(':').map(Number);
   }
   const birthDateTime = new Date(y, m-1, d, h, min, 0, 0);
-  // Calcul des 3 prochains anniversaires
-  const upcoming = getNextBirthdays(birthDateTime, 3);
+
+  // Prochain anniversaire
+  const nextBirthday = getNextBirthday(birthDateTime);
+
+  // Différences totales (comptes ronds)
+  const diff = diffTotals(new Date(), nextBirthday);
+
   // Affichage
-  renderResults(upcoming);
+  renderResult(nextBirthday, diff);
 });
 
-function getNextBirthdays(birthDateTime, n){
-  const out = [];
+/**
+ * Calcule la date du tout prochain anniversaire (>= maintenant)
+ */
+function getNextBirthday(birthDate){
   const now = new Date();
-  let year = now.getFullYear();
-  // Premier anniversaire futur ou aujourd'hui mais plus tard
-  let next = new Date(birthDateTime);
-  next.setFullYear(year);
-  if(next <= now) {
-    next.setFullYear(++year);
+  const next = new Date(birthDate);
+  next.setFullYear(now.getFullYear());
+  // Si déjà passé cette année → année suivante
+  if(next <= now){
+    next.setFullYear(now.getFullYear() + 1);
   }
-  for(let i=0;i<n;i++){
-    const bday = new Date(next);
-    bday.setFullYear(next.getFullYear()+i);
-    out.push({number: (bday.getFullYear()-birthDateTime.getFullYear()), date: bday, diff: diffBreakdown(now,bday)});
-  }
-  return out;
+  return next;
 }
 
-function diffBreakdown(start,end){
+/**
+ * Retourne les totaux arrondis (heures, jours, mois) entre 2 dates
+ */
+function diffTotals(start, end){
   const ms = end - start;
-  const totalHours = Math.floor(ms/3.6e6); // 3600000ms
-  const totalDays  = Math.floor(totalHours/24);
-  const months     = Math.floor(totalDays/30); // approximation
-  const days       = totalDays % 30;
-  const hours      = totalHours % 24;
-  return {months, days, hours};
+  const totalHours = Math.round(ms / 3.6e6);      // 1h  = 3 600 000 ms
+  const totalDays  = Math.round(ms / 8.64e7);     // 1j  = 86 400 000 ms
+  const totalMonths= Math.round(totalDays / 30.44); // mois moyen ≈ 30,44 j
+  return {
+    hours : totalHours,
+    days  : totalDays,
+    months: totalMonths
+  };
 }
 
-function renderResults(list){
-  resultsZone.innerHTML='';
-  list.forEach(({number,date,diff})=>{
-    const card = document.createElement('div');
-    card.className='birthday-card';
-    const yyyy = date.getFullYear();
-    const dd   = String(date.getDate()).padStart(2,'0');
-    const mm   = String(date.getMonth()+1).padStart(2,'0');
-    const hh   = String(date.getHours()).padStart(2,'0');
-    const mn   = String(date.getMinutes()).padStart(2,'0');
+function renderResult(nextBirthday, diff){
+  resultsZone.innerHTML = '';
 
-    card.innerHTML = `
-      <h3>${number}<sup>e</sup> anniversaire – ${dd}/${mm}/${yyyy} à ${hh}h${mn}</h3>
-      <div class="result-item"><label>Dans&nbsp;:</label><span>${diff.months} mois</span></div>
-      <div class="result-item"><label></label><span>${diff.days} jours</span></div>
-      <div class="result-item"><label></label><span>${diff.hours} heures</span></div>
-    `;
-    resultsZone.appendChild(card);
-  });
+  const card = document.createElement('div');
+  card.className = 'birthday-card';
+
+  const dd = String(nextBirthday.getDate()).padStart(2,'0');
+  const mm = String(nextBirthday.getMonth()+1).padStart(2,'0');
+  const yyyy = nextBirthday.getFullYear();
+  const hh = String(nextBirthday.getHours()).padStart(2,'0');
+  const mn = String(nextBirthday.getMinutes()).padStart(2,'0');
+
+  card.innerHTML = `
+    <h3>Prochain anniversaire – ${dd}/${mm}/${yyyy} à ${hh}h${mn}</h3>
+    <div class="result-item"><label>Heures restantes&nbsp;:</label><span>${diff.hours.toLocaleString()}</span></div>
+    <div class="result-item"><label>Jours restants&nbsp;:</label><span>${diff.days.toLocaleString()}</span></div>
+    <div class="result-item"><label>Mois restants&nbsp;:</label><span>${diff.months.toLocaleString()}</span></div>
+  `;
+
+  resultsZone.appendChild(card);
 }
-
