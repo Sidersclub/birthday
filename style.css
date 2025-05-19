@@ -1,1 +1,42 @@
+:root{ --accent:#DEBA52; --bg:#000; --fg:#F5F5F5; --fg-dim:#8E8E8E; --border:#555; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Poppins",sans-serif;
+  background:var(--bg); color:var(--fg);
+  padding:20px; letter-spacing:.4px; -webkit-font-smoothing:antialiased;
+}
+.calculator-container{max-width:540px;margin:40px auto;padding:24px 32px;border:1px solid var(--border);border-radius:8px;text-align:center}
+.title{font-size:2rem;font-weight:700;letter-spacing:.08em;margin-bottom:4px;position:relative}
+.title::after{content:"_";color:var(--accent);margin-left:6px;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.subtitle{font-size:.9rem;color:var(--fg-dim);margin-bottom:28px;font-weight:400}
+
+/* Animation */
+.orbit-container{width:100%;max-width:300px;margin:8px auto}
+svg{width:100%;height:auto}
+svg path{stroke:var(--fg-dim);stroke-width:.4;fill:none}
+svg .trail{display:none}
+svg g > circle:nth-of-type(1){r:2px;} svg g > circle:nth-of-type(2){r:3px;} svg g > circle:nth-of-type(3){r:4px;} svg g > circle:nth-of-type(4){r:5px;} svg g > circle:nth-of-type(5){r:6px;}
+
+/* Formulaire */
+.input-group{margin-bottom:20px;text-align:left}
+.input-group label{display:block;font-weight:700;margin-bottom:6px}
+.input-group input{width:100%;padding:10px;background:transparent;border:1px solid var(--fg-dim);border-radius:4px;color:var(--fg);font-size:.9rem}
+.input-group input:focus{outline:none;border-color:var(--accent)}
+.action-button{display:inline-block;padding:10px 24px;margin-bottom:32px;background:var(--accent);border:none;border-radius:4px;color:var(--bg);font-weight:700;cursor:pointer;transition:.2s}
+.action-button:hover{transform:scale(1.03)}
+
+/* Résultats */
+.results-container{display:flex;flex-direction:column;gap:20px}
+.birthday-card{flex:1;padding:18px;border:1px dashed var(--border);border-radius:6px;text-align:left;animation:fadeIn .4s ease}
+.birthday-card h3{color:var(--accent);font-size:1rem;margin-bottom:8px}
+.birthday-card .result-item{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px}
+.birthday-card .result-item span{font-weight:700;font-size:1rem}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.footer{margin-top:8px;text-align:center;font-size:.8rem;color:var(--fg-dim)}
+.footer a{color:var(--accent);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+.highlight{position:relative;display:inline-block}
+.highlight::before{content:"";position:absolute;left:-2px;right:-2px;bottom:.1em;height:55%;background:var(--accent);transform:skew(-3deg);z-index:-1}
 
