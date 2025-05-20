@@ -1,4 +1,4 @@
-:root{ --accent:#DEBA52; --bg:#000; --fg:#F5F5F5; --fg-dim:#8E8E8E; --border:#555; }
+:root{ --accent:#3f7eda; --bg:#000; --fg:#F5F5F5; --fg-dim:#8E8E8E; --border:#555; }
 *{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:"Poppins",sans-serif;
